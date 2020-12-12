@@ -1,11 +1,21 @@
 import jwt from 'jwt-simple';
 import { User } from '../modules/UserModel';
+import {secret} from '../keys';
+import moment from 'moment';
 
 class Token{
 
-    private secret: string = "CLAVE_CURSO";
     public async createToken(user:User):Promise<String>{
-        return jwt.encode(user, this.secret);
+        return jwt.encode({
+            id: user._id,
+            name: user.name,
+            surname: user.surname,
+            email: user.email, 
+            role: user.role,
+            image: user.image,
+            iat: moment().unix(),
+            exp: moment().add(10,"m").unix()
+        }, secret);
     }
 }
 

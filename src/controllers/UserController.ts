@@ -85,6 +85,21 @@ class UserController {
             });
         }
     }
+
+    public async updateUser(req: Request, res: Response) {
+        let params: User = req.body;
+        await UserSchema.findByIdAndUpdate(params._id, params, (err, user)=>{
+            if(err){
+                res.status(500).send({
+                    message: "Internal Error"
+                })
+            }else{
+                res.status(200).send({
+                    message: user
+                })
+            }
+        });
+    }
 }
 
 export const userController = new UserController();
